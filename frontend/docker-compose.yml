@@ -1,0 +1,20 @@
+services:
+  react:
+    image: node:18-alpine
+    container_name: task_frontend
+    working_dir: /app
+    volumes:
+      - ./src:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm start"
+    networks:
+      - task_network
+
+networks:
+  task_network:
+    driver: bridge

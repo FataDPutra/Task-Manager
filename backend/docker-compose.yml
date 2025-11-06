@@ -1,0 +1,43 @@
+services:
+  app:
+    build: .
+    container_name: task_backend
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    networks:
+      - task_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: task_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - task_network
+
+  db:
+    image: postgres:15
+    container_name: task_db
+    environment:
+      POSTGRES_DB: task_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+    networks:
+      - task_network
+
+networks:
+  task_network:
+    driver: bridge
+
+volumes:
+  pgdata:
