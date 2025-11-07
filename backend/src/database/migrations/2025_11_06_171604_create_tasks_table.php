@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['To Do', 'In Progress', 'Done'])->default('To Do');
             $table->date('deadline');
+            $table->foreignId('created_by')->constrained('users', 'user_id');
             $table->timestamps();
         });
     }

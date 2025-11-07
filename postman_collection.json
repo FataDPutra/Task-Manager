@@ -1,0 +1,441 @@
+{
+  "info": {
+    "_postman_id": "task-management-api",
+    "name": "Task Management System API",
+    "description": "API Documentation for Task Management System\n\nBase URL: http://localhost:8000/api\n\n## Authentication\nSemua endpoint task memerlukan JWT token. Token harus dikirim di header:\nAuthorization: Bearer {token}\n\n## Endpoints\n\n### Authentication\n- POST /register - Register user baru\n- POST /login - Login user\n- GET /me - Get user yang sedang login\n- POST /logout - Logout user\n\n### Tasks\n- GET /tasks - Get semua tasks (dengan filter dan sorting)\n- POST /tasks - Create task baru\n- GET /tasks/{id} - Get task by ID\n- PUT /tasks/{id} - Update task\n- DELETE /tasks/{id} - Delete task",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": ["{{base_url}}"],
+              "path": ["register"]
+            },
+            "description": "Register user baru dengan email dan password"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data.token) {",
+                  "        pm.environment.set(\"token\", jsonData.data.token);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Login dengan email dan password. Token akan otomatis disimpan di environment variable 'token'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            },
+            "description": "Get informasi user yang sedang login"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": ["{{base_url}}"],
+              "path": ["logout"]
+            },
+            "description": "Logout user dan invalidate token"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "item": [
+            {
+              "name": "Get All Tasks (No Filter)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"]
+                },
+                "description": "Get semua tasks milik user yang login tanpa filter apapun. Default sorting: deadline ascending (terdekat dulu)."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Filter: To Do",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?status=To Do",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "To Do",
+                      "description": "Filter by status: 'To Do'"
+                    }
+                  ]
+                },
+                "description": "Get semua tasks dengan status 'To Do' milik user yang login."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Filter: In Progress",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?status=In Progress",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "In Progress",
+                      "description": "Filter by status: 'In Progress'"
+                    }
+                  ]
+                },
+                "description": "Get semua tasks dengan status 'In Progress' milik user yang login."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Filter: Done",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?status=Done",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "Done",
+                      "description": "Filter by status: 'Done'"
+                    }
+                  ]
+                },
+                "description": "Get semua tasks dengan status 'Done' milik user yang login."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Sort: Deadline ASC",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?sort=asc",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "asc",
+                      "description": "Sort by deadline ascending (deadline terdekat dulu)"
+                    }
+                  ]
+                },
+                "description": "Get semua tasks diurutkan berdasarkan deadline ascending (deadline terdekat muncul pertama)."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Sort: Deadline DESC",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?sort=desc",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "desc",
+                      "description": "Sort by deadline descending (deadline terjauh dulu)"
+                    }
+                  ]
+                },
+                "description": "Get semua tasks diurutkan berdasarkan deadline descending (deadline terjauh muncul pertama)."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Filter: To Do + Sort: ASC",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?status=To Do&sort=asc",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "To Do",
+                      "description": "Filter by status: 'To Do'"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "asc",
+                      "description": "Sort by deadline ascending"
+                    }
+                  ]
+                },
+                "description": "Get tasks dengan status 'To Do' diurutkan berdasarkan deadline ascending."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Tasks - Filter: In Progress + Sort: DESC",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tasks?status=In Progress&sort=desc",
+                  "host": ["{{base_url}}"],
+                  "path": ["tasks"],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "In Progress",
+                      "description": "Filter by status: 'In Progress'"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "desc",
+                      "description": "Sort by deadline descending"
+                    }
+                  ]
+                },
+                "description": "Get tasks dengan status 'In Progress' diurutkan berdasarkan deadline descending."
+              },
+              "response": []
+            }
+          ],
+          "description": "Kumpulan request untuk mendapatkan semua tasks dengan berbagai filter dan sorting options."
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Complete project documentation\",\n    \"description\": \"Write comprehensive documentation for the project\",\n    \"status\": \"To Do\",\n    \"deadline\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            },
+            "description": "Create task baru.\n\nRequired fields:\n- title: string (required)\n- deadline: date (required, format: YYYY-MM-DD)\n\nOptional fields:\n- description: string\n- status: 'To Do', 'In Progress', 'Done' (default: 'To Do')"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            },
+            "description": "Get task by ID. Hanya bisa mengakses task milik sendiri."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated task title\",\n    \"description\": \"Updated description\",\n    \"status\": \"In Progress\",\n    \"deadline\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            },
+            "description": "Update task. Semua field optional, hanya kirim field yang ingin diupdate.\n\nFields:\n- title: string\n- description: string\n- status: 'To Do', 'In Progress', 'Done'\n- deadline: date (format: YYYY-MM-DD)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            },
+            "description": "Delete task. Hanya bisa menghapus task milik sendiri."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
