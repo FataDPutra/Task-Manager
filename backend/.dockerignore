@@ -1,0 +1,81 @@
+# Dependencies
+src/vendor/
+src/node_modules/
+src/package-lock.json
+src/composer.lock
+
+# Environment files
+src/.env
+src/.env.*
+!.env.example
+
+# Logs
+*.log
+src/storage/logs/
+src/storage/*.log
+
+# Cache and temporary files
+src/storage/framework/cache/
+src/storage/framework/sessions/
+src/storage/framework/views/
+src/bootstrap/cache/
+.phpunit.cache
+.phpunit.result.cache
+
+# IDE and editor files
+.idea/
+.vscode/
+.fleet/
+.nova/
+.zed/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README.md
+CHANGELOG.md
+
+# Testing
+src/tests/
+.phpunit.cache/
+coverage/
+.nyc_output/
+
+# Build artifacts
+src/public/build/
+src/public/hot/
+src/public/storage
+src/public/mix-manifest.json
+
+# Database
+src/database/*.sqlite
+src/database/*.sqlite-journal
+
+# Storage
+src/storage/app/public/
+src/storage/pail/
+src/storage/*.key
+
+# Docker files (avoid recursive copy)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Other
+Homestead.json
+Homestead.yaml
+auth.json
+.phpactor.json
+
