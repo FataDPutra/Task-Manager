@@ -246,8 +246,6 @@ docker-compose down -v
 
 ![Create Task](./screenshots/create-task.png)
 
-> **Catatan**: Screenshot dapat ditambahkan di folder `screenshots/` di root project
-
 ## Troubleshooting
 
 ### Port sudah digunakan

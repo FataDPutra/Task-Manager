@@ -20,7 +20,7 @@ Frontend ini adalah Single Page Application (SPA) yang dibangun dengan React 19.
 - Docker & Docker Compose terinstall
 - Git terinstall
 
-## 🛠️ Langkah-langkah Setup & Menjalankan
+## Langkah-langkah Setup & Menjalankan
 
 ### 1. Masuk ke Folder Frontend
 
