@@ -40,7 +40,7 @@ Sebelum memulai, pastikan Anda telah menginstall:
 - [Docker Compose](https://docs.docker.com/compose/install/) (versi 2.0 atau lebih baru)
 - [Git](https://git-scm.com/downloads)
 
-## 🛠️ Langkah-langkah Instalasi & Menjalankan Aplikasi
+## Langkah-langkah Instalasi & Menjalankan Aplikasi
 
 ### 1. Clone Repository
 
@@ -89,7 +89,7 @@ docker-compose up -d
 - **Backend API**: http://localhost:8000/api
 - **API Documentation**: http://localhost:8000/api/documentation (jika tersedia)
 
-## 🔐 Informasi Login Dummy
+## Informasi Login Dummy
 
 Setelah menjalankan seeder, Anda dapat login dengan kredensial berikut:
 
