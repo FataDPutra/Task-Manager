@@ -6,6 +6,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use App\Traits\ApiResponse;
+use App\Utils\Logger;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -18,41 +20,65 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    // Register user baru
+    /**
+     * Register user baru
+     */
     public function register(RegisterRequest $request)
     {
-        $data = $this->authService->register($request->validated());
-
-        return $this->successResponse($data, 'User registered successfully', 201);
+        try {
+            $data = $this->authService->register($request->validated());
+            return $this->successResponse($data, 'User berhasil terdaftar', 201);
+        } catch (Exception $e) {
+            Logger::error('Registration failed', ['error' => $e->getMessage()]);
+            return $this->errorResponse('Registrasi gagal. Silakan coba lagi.', 500);
+        }
     }
 
-    // Login user dan generate token
+    /**
+     * Login user dan generate token
+     */
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-        $result = $this->authService->login($credentials);
+        try {
+            $result = $this->authService->login($request->only('email', 'password'));
 
-        if (!$result) {
-            return $this->unauthorizedResponse('Invalid email or password');
+            if (!$result) {
+                return $this->unauthorizedResponse('Email atau password salah');
+            }
+
+            return $this->successResponse($result, 'Berhasil login');
+        } catch (Exception $e) {
+            Logger::error('Login failed', ['error' => $e->getMessage()]);
+            return $this->errorResponse('Login gagal. Silakan coba lagi.', 500);
         }
-
-        return $this->successResponse($result, 'Login successful');
     }
 
-    // Ambil data user yang sedang login
+    /**
+     * Ambil data user yang sedang login
+     */
     public function me()
     {
-        $user = auth()->user();
-
-        return $this->successResponse(['user' => $user->toArray()]);
+        try {
+            $user = auth()->user();
+            return $this->successResponse(['user' => $user->toArray()]);
+        } catch (Exception $e) {
+            Logger::error('Get user failed', ['error' => $e->getMessage()]);
+            return $this->errorResponse('Gagal mengambil data user', 500);
+        }
     }
 
-    // Logout dan invalidate token
+    /**
+     * Logout dan invalidate token
+     */
     public function logout()
     {
-        $this->authService->logout();
+        try {
+            $this->authService->logout();
+        } catch (Exception $e) {
+            Logger::error('Logout failed', ['error' => $e->getMessage()]);
+        }
 
-        return $this->successResponse(null, 'Successfully logged out');
+        return $this->successResponse(null, 'Berhasil logout');
     }
 }
 

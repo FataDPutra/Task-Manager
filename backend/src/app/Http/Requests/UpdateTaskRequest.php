@@ -13,12 +13,16 @@ class UpdateTaskRequest extends FormRequest
         return true;
     }
 
-    // Rules validasi untuk update task (semua field optional)
+    /**
+     * Rules validasi untuk update task (semua field optional)
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
             'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:5000',
             'status' => ['sometimes', 'required', Rule::in(TaskStatus::all())],
             'deadline' => 'sometimes|required|date|after_or_equal:today',
         ];

@@ -39,12 +39,6 @@ trait ApiResponse
         return response()->json($response, $code);
     }
 
-    // Response khusus untuk validation error
-    protected function validationErrorResponse($errors): JsonResponse
-    {
-        return $this->errorResponse('Validation error', 422, $errors);
-    }
-
     // Response untuk not found (404)
     protected function notFoundResponse(string $message = 'Resource not found'): JsonResponse
     {

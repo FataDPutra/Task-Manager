@@ -2,18 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy source code (jika ada)
-COPY src/ .
+# Copy package files
+COPY src/package*.json ./
 
-# If package.json exists, install dependencies
-RUN if [ -f package.json ]; then \
-    npm install; \
-    else \
-    echo "No package.json found, will install later"; \
-    fi
+# Install dependencies (akan di-override oleh volume, tapi ini untuk initial build)
+RUN npm install
 
 # Expose port
 EXPOSE 3000
 
-# Start command will be overridden by docker-compose
-CMD ["npm", "start"]
+# Start command dengan install dependencies jika belum ada
+CMD sh -c "npm install && npm start"

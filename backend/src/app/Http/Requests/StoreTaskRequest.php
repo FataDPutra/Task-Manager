@@ -13,12 +13,16 @@ class StoreTaskRequest extends FormRequest
         return true;
     }
 
-    // Rules validasi untuk create task
+    /**
+     * Rules validasi untuk create task
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:5000',
             'status' => ['nullable', Rule::in(TaskStatus::all())],
             'deadline' => 'required|date|after_or_equal:today',
         ];

@@ -7,36 +7,20 @@ services:
     working_dir: /app
     volumes:
       - ./src:/app
-      - /app/node_modules
+      - node_modules:/app/node_modules
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - PORT=3000
+      - REACT_APP_API_URL=http://localhost:8000/api
     networks:
       - task_network
-    command: >
-      sh -c "
-        if [ ! -f package.json ]; then
-          echo 'Creating package.json...' &&
-          echo '{\"name\": \"react-app\", \"version\": \"1.0.0\", \"main\": \"index.js\"}' > package.json
-        fi &&
-        if [ ! -f node_modules/tailwindcss/package.json ]; then
-          echo 'Installing React and Tailwind dependencies...' &&
-          npm install react react-dom &&
-          npm install -D react-scripts tailwindcss postcss autoprefixer
-        fi &&
-        if [ ! -f tailwind.config.js ]; then
-          echo 'Setting up Tailwind CSS...' &&
-          npx tailwindcss init -p &&
-          echo '@tailwind base;' > src/index.css &&
-          echo '@tailwind components;' >> src/index.css &&
-          echo '@tailwind utilities;' >> src/index.css
-        fi &&
-        echo 'Starting React app...' &&
-        npm start
-      "
+    command: sh -c "npm install && npm start"
+
+volumes:
+  node_modules:
 
 networks:
   task_network:

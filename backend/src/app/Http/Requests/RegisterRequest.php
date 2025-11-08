@@ -11,7 +11,11 @@ class RegisterRequest extends FormRequest
         return true;
     }
 
-    // Rules validasi untuk register
+    /**
+     * Rules validasi untuk register
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
