@@ -34,7 +34,7 @@ Task Management System adalah aplikasi web untuk mengelola tugas sehari-hari. Ap
 
 ## Prasyarat
 
-Sebelum memulai, pastikan Anda telah menginstall:
+Sebelum memulai, pastikan Anda telah menginstall lalu jalankan Dockernya:
 
 - [Docker](https://www.docker.com/get-started) (versi 20.10 atau lebih baru)
 - [Docker Compose](https://docs.docker.com/compose/install/) (versi 2.0 atau lebih baru)
