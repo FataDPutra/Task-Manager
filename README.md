@@ -177,10 +177,9 @@ Task-Manager/
 │   ├── docker-compose.yml
 │   ├── Dockerfile
 │   └── README.md
-├── screenshots/         # Screenshot aplikasi
-│   ├── login.png
-│   ├── dashboard.png
-│   └── task_crud.png
+├── Screenshot/         # Screenshot aplikasi
+│   ├── Desktop/       # Screenshot versi Desktop
+│   └── Mobile/        # Screenshot versi Mobile
 ├── create-dump.sh       # Script untuk membuat database dump
 ├── restore-dump.sh      # Script untuk restore database
 ├── db.sql              # Database dump file
@@ -232,19 +231,83 @@ cd frontend
 docker-compose down -v
 ```
 
-## Screenshot Tampilan Utama
+## Screenshot Tampilan Aplikasi
 
-### Halaman Login
+### Versi Desktop
 
-![Login Page](./screenshots/login.png)
+#### Halaman Login
 
-### Halaman Dashboard / Task List
+![Login Desktop](./Screenshot/Desktop/Login%20Desktop.png)
 
-![Dashboard](./screenshots/dashboard.png)
+#### Halaman Register
 
-### Halaman Create Task
+![Register Desktop](./Screenshot/Desktop/Register%20Desktop.png)
 
-![Create Task](./screenshots/create-task.png)
+#### Halaman All Tasks
+
+![All Task Desktop](./Screenshot/Desktop/All%20Task%20Desktop.png)
+
+#### Halaman Create Task
+
+![Create Task Desktop](./Screenshot/Desktop/Create%20Task%20Desktop.png)
+
+#### Halaman Detail Task
+
+![Detail Task Desktop](./Screenshot/Desktop/Detail%20Task%20Desktop.png)
+
+#### Halaman Edit Task
+
+![Edit Task Desktop](./Screenshot/Desktop/Edit%20Task%20Desktop.png)
+
+#### Filter Task
+
+![Filter Task Desktop](./Screenshot/Desktop/Filter%20Task%20Desktop.png)
+
+#### Delete Task
+
+![Delete Task Desktop](./Screenshot/Desktop/Delete%20Task%20Desktop.png)
+
+#### Logout
+
+![Logout Desktop](./Screenshot/Desktop/Logout%20Desktop.png)
+
+### Versi Mobile
+
+#### Halaman Login
+
+![Login Mobile](./Screenshot/Mobile/Login%20Mobile.png)
+
+#### Halaman Register
+
+![Register Mobile](./Screenshot/Mobile/Register%20Mobile.png)
+
+#### Halaman All Tasks
+
+![All Task Mobile](./Screenshot/Mobile/All%20Task%20Mobile.png)
+
+#### Halaman Create Task
+
+![Create Task Mobile](./Screenshot/Mobile/Create%20Task%20Mobile.png)
+
+#### Halaman Detail Task
+
+![Detail Task Mobile](./Screenshot/Mobile/Detail%20Task%20Mobile.png)
+
+#### Halaman Edit Task
+
+![Edit Task Mobile](./Screenshot/Mobile/Edit%20Task%20Mobile.png)
+
+#### Filter Task
+
+![Filter Task Mobile](./Screenshot/Mobile/FIlter%20Task%20Mobile.png)
+
+#### Delete Task
+
+![Delete Task Mobile](./Screenshot/Mobile/Delete%20Task%20Mobile.png)
+
+#### Logout
+
+![Logout Mobile](./Screenshot/Mobile/Logout%20Mobile.png)
 
 ## Troubleshooting
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { taskAPI } from "../services/api";
 import TaskItem from "./TaskItem";
 import TaskForm from "./TaskForm";
@@ -35,6 +35,7 @@ const TaskList = () => {
   const [openStatusDropdown, setOpenStatusDropdown] = useState(false);
   const [openSortDropdown, setOpenSortDropdown] = useState(false);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
+  const dateChangeTimeoutRef = useRef(null);
 
   // Fetch tasks
   const fetchTasks = async () => {
@@ -131,12 +132,20 @@ const TaskList = () => {
     setOpenSortDropdown(false);
   };
 
-  const handleDateChange = (field, value) => {
-    setFilters({
-      ...filters,
-      [field]: value,
+  const handleDateChange = useCallback((field, value) => {
+    // Clear timeout sebelumnya jika ada
+    if (dateChangeTimeoutRef.current) {
+      cancelAnimationFrame(dateChangeTimeoutRef.current);
+    }
+
+    // Gunakan requestAnimationFrame untuk mengurangi re-render yang memicu ResizeObserver loop
+    dateChangeTimeoutRef.current = requestAnimationFrame(() => {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [field]: value,
+      }));
     });
-  };
+  }, []);
 
   const clearDateFilter = () => {
     setFilters({
