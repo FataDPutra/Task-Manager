@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { taskAPI } from "../services/api";
 import TaskItem from "./TaskItem";
 import TaskForm from "./TaskForm";
@@ -36,6 +36,48 @@ const TaskList = () => {
   const [openSortDropdown, setOpenSortDropdown] = useState(false);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
   const dateChangeTimeoutRef = useRef(null);
+  const statusSummary = useMemo(() => {
+    const base = {
+      "To Do": 0,
+      "In Progress": 0,
+      Done: 0,
+    };
+    tasks.forEach((task) => {
+      if (base[task.status] !== undefined) {
+        base[task.status] += 1;
+      }
+    });
+    return base;
+  }, [tasks]);
+  const statusCards = [
+    {
+      key: "To Do",
+      label: "To Do",
+      description: "Belum dikerjakan",
+      icon: FaCircle,
+      iconClass: "text-yellow-500",
+      border: "border-yellow-200",
+      bg: "bg-yellow-50",
+    },
+    {
+      key: "In Progress",
+      label: "In Progress",
+      description: "Sedang dikerjakan",
+      icon: FaClock,
+      iconClass: "text-orange-500",
+      border: "border-orange-200",
+      bg: "bg-orange-50",
+    },
+    {
+      key: "Done",
+      label: "Done",
+      description: "Sudah selesai",
+      icon: FaCheckCircle,
+      iconClass: "text-green-500",
+      border: "border-green-200",
+      bg: "bg-green-50",
+    },
+  ];
 
   // Fetch tasks
   const fetchTasks = async () => {
@@ -533,6 +575,44 @@ const TaskList = () => {
                       onView={handleView}
                     />
                   ))}
+                </div>
+              )}
+              {tasks.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-6">
+                  {statusCards.map((card) => {
+                    const Icon = card.icon;
+                    const value = statusSummary[card.key] || 0;
+                    const percentage =
+                      tasks.length > 0
+                        ? Math.round((value / tasks.length) * 100)
+                        : 0;
+                    return (
+                      <div
+                        key={card.key}
+                        className={`flex items-center gap-3 border ${card.border} rounded-lg p-3 sm:p-4 bg-white shadow-sm`}
+                      >
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center ${card.bg}`}
+                        >
+                          <Icon className={`${card.iconClass} text-lg`} />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-gray-800">
+                            {card.label}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {card.description}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-gray-900">
+                            {value}
+                          </p>
+                          <p className="text-xs text-gray-500">{percentage}%</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </>
