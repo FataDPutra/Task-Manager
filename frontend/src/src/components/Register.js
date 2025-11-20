@@ -8,6 +8,8 @@ import {
   FaUser,
   FaUserTag,
   FaUserPlus,
+  FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
 
 const Register = () => {
@@ -17,6 +19,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -200,14 +203,30 @@ const Register = () => {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     minLength={6}
-                    className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-blue-50/50 text-sm transition-all"
+                    className="w-full pl-10 pr-12 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-blue-50/50 text-sm transition-all"
                     placeholder="Password (minimal 6 karakter)"
                     value={formData.password}
                     onChange={handleChange}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-blue-600 transition-colors"
+                    aria-label={
+                      showPassword
+                        ? "Sembunyikan password"
+                        : "Tampilkan password"
+                    }
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash className="text-sm" />
+                    ) : (
+                      <FaEye className="text-sm" />
+                    )}
+                  </button>
                 </div>
                 {errors.password && (
                   <p className="mt-1 text-sm text-red-600">
